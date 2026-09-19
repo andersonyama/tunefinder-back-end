@@ -1,9 +1,9 @@
-from flask_openapi3 import OpenAPI, Info
+from flask_openapi3 import OpenAPI, Info, Tag
 from flask_cors import CORS
 from flask_login import LoginManager
-from flask import jsonify
+from flask import jsonify, redirect
 
-from .config import API_URL, API_KEY, SECRET_KEY
+from .config import SECRET_KEY
 from .db.session import db, init_db, db_url
 
 from .models import User, FavoriteArtist
@@ -30,6 +30,14 @@ def unauthorized():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+home_tag = Tag(name='Documentation', description='Tunefinder API documentation')
+
+@app.get('/', tags=[home_tag])
+def home():
+    return redirect('/openapi/swagger')
+
 # importa rotas após criação do app para que ele possa ser importado por routes
-from .api import routes, auth_bp, user_tag
-app.register_blueprint(auth_bp, url_prefix='/auth', tags=[user_tag])
+from .routes.auth import auth_bp
+from .routes.artist import artist_bp
+app.register_blueprint(auth_bp)
+app.register_api(artist_bp)

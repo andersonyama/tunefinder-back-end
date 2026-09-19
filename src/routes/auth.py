@@ -1,23 +1,11 @@
-from flask import redirect
-from flask_openapi3 import Tag
-
 from flask import Blueprint, request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 
-from ..main import app
 from ..schemas import *
-from ..repositories import *
-from ..models import User, FavoriteArtist
+from ..repositories import create_user
+from ..models import User
 
-home_tag = Tag(name='Documentation', description='Tunefinder API documentation')
-user_tag = Tag(name='User', description='User management endpoints')
-favorite_artist_tag = Tag(name='Favorite Artist', description='Favorite artist management endpoints')
-
-@app.get('/')
-def home():
-    return redirect('/openapi/swagger')
-
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
