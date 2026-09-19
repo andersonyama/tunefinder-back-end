@@ -1,25 +1,21 @@
-from datetime import datetime
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+from datetime import datetime, UTC
 
-from .base import Base
+from ..db.session import db
 
-class FavoriteArtist(Base):
+class FavoriteArtist(db.Model):
     __tablename__ = 'favorite_artists'
 
-    id_user: Mapped[int] = mapped_column(ForeignKey('user.id'), primary_key=True)
-    id_artist: Mapped[str] = mapped_column(primary_key=True)
-    ts_added: Mapped[datetime] = mapped_column(nullable=False)
+    id_user = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    id_artist = db.Column(db.String, primary_key=True)
+    ts_added = db.Column(db.DateTime, nullable=False, default=datetime.now(UTC))
 
-    def __init__(self, id_user: int,id_artist: str):
-            """
-            Create a favorited artist
-    
-            Arguments:
-                id_user: int
-                id_artist: int
-            """
-            self.id_user = id_user
-            self.id_artist = id_artist
-            self.ts_added = datetime.now()
+    def __init__(self, id_user: int, id_artist: str):
+        """
+        Create a favorited artist
+
+        Arguments:
+            id_user: int
+            id_artist: str
+        """
+        self.id_user = id_user
+        self.id_artist = id_artist
