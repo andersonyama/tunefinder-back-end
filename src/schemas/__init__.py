@@ -1,4 +1,4 @@
-from error_schema import ErrorResponse
+from .error_schema import ErrorResponse
 from .user_schema import UserCreateRequest, UserDeleteRequest, UserUpdateRequest
 from .favorite_artist_schema import FavoriteArtistCreateRequest, FavoriteArtistDeleteRequest, \
                                     FavoriteArtistResponse, FavoriteArtistListResponse, \
