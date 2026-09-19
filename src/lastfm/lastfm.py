@@ -52,3 +52,6 @@ class LastFmClient:
 
     def artist_search(self, artist: str) -> dict:
         return self._get({"method": "artist.search", "artist": artist})
+
+    def artist_similar(self, artist_mbid: str) -> dict:
+        return self._get({"method": "artist.getsimilar", "mbid": artist_mbid})

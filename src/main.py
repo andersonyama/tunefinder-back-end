@@ -39,5 +39,8 @@ def home():
 # importa rotas após criação do app para que ele possa ser importado por routes
 from .routes.auth import auth_bp
 from .routes.artist import artist_bp
+from .routes.recommend import recommend_bp
+
 app.register_blueprint(auth_bp)
 app.register_api(artist_bp)
+app.register_api(recommend_bp)
