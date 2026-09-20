@@ -14,13 +14,18 @@ app = OpenAPI(__name__, info=info)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, origins=["http://localhost:8080"])
 
 # initialize SQLAlchemy with the app
 init_db(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+# Configurações de sessão/cookie recomendadas
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -40,7 +45,9 @@ def home():
 from .routes.auth import auth_bp
 from .routes.artist import artist_bp
 from .routes.recommend import recommend_bp
+from .routes.favorite_artist import favorite_artist_bp
 
 app.register_blueprint(auth_bp)
 app.register_api(artist_bp)
 app.register_api(recommend_bp)
+app.register_api(favorite_artist_bp)
