@@ -5,14 +5,15 @@ from ..clients.lastfm_client import lastfm_client
 from ..lastfm.lastfm import LastFmApiError
 
 from ..schemas import RecommendRequest
+from ..services.recommend_service import list_recommendation
 
 recommend_tag = Tag(name='Recommend', description='Artist recommendation endpoints')
 recommend_bp = APIBlueprint("recommend", __name__, url_prefix="/recommend", abp_tags=[recommend_tag])
 
-@recommend_bp.post("/recommend", summary="List of artists recommendation given a list of artists")
+@recommend_bp.post("", summary="List of artists recommendation given a list of artists")
 def recommend(body: RecommendRequest):
     try:
-        data = lastfm_client.artist_similar(body.id_artist)
+        data = lastfm_client.artist_similar(body.artist_ids[0])
     except LastFmApiError as e:
         return jsonify({"error": str(e)}), 502
-    return jsonify(data)
+    return jsonify(list_recommendation(data))
