@@ -47,7 +47,7 @@ from .routes.artist import artist_bp
 from .routes.recommend import recommend_bp
 from .routes.favorite_artist import favorite_artist_bp
 
-app.register_blueprint(auth_bp)
+app.register_api(auth_bp)
 app.register_api(artist_bp)
 app.register_api(recommend_bp)
 app.register_api(favorite_artist_bp)
