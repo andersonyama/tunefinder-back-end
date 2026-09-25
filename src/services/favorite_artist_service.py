@@ -64,15 +64,11 @@ def edit_favorite_artist(id_user: int, id_artist: str, note: str) -> FavoriteArt
     if not normalized_id_user or not normalized_id_artist:
         raise FavoriteArtistValidationError('id_user e id_artist são obrigatórios')
 
-    favorite_artist = FavoriteArtist.query.filter_by(
-        id_user=normalized_id_user,
-        id_artist=normalized_id_artist,
-    ).first()
-    if favorite_artist is None:
-        raise FavoriteArtistNotFoundError('favorite_artist not found')
+    try:
+        favorite_artist = update_favorite_artist(normalized_id_user, normalized_id_artist, normalized_note)
+    except ValueError as exc:
+        raise FavoriteArtistNotFoundError('favorite_artist not found') from exc
 
-    favorite_artist.note = normalized_note
-    update_favorite_artist(normalized_id_user, normalized_id_artist, normalized_note)
     return favorite_artist
 
 
@@ -83,11 +79,7 @@ def remove_favorite_artist(id_user: int, id_artist: str) -> None:
     if not normalized_id_user or not normalized_id_artist:
         raise FavoriteArtistValidationError('id_user e id_artist são obrigatórios')
 
-    favorite_artist = FavoriteArtist.query.filter_by(
-        id_user=normalized_id_user,
-        id_artist=normalized_id_artist,
-    ).first()
-    if favorite_artist is None:
-        raise FavoriteArtistNotFoundError('favorite_artist not found')
-
-    delete_favorite_artist(normalized_id_user, normalized_id_artist)
+    try:
+        delete_favorite_artist(normalized_id_user, normalized_id_artist)
+    except ValueError as exc:
+        raise FavoriteArtistNotFoundError('favorite_artist not found') from exc
