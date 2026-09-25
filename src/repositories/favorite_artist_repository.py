@@ -25,3 +25,13 @@ def list_favorite_artists(id_user: int):
         return FavoriteArtist.query.filter_by(id_user=id_user).all()
     except Exception as e:
         raise e
+
+def edit_favorite_artist(id_user: int, id_artist: str, note: str):
+    try:
+        favorite_artist = FavoriteArtist.query.filter_by(id_user=id_user, id_artist=id_artist).first()
+        if favorite_artist is None:
+            raise ValueError("Favorite artist not found")
+        favorite_artist.note = note
+        db.session.commit()
+    except Exception as e:
+        raise e
