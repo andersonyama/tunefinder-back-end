@@ -24,6 +24,7 @@ def register(body: UserCreateRequest):
     except AuthValidationError as exc:
         return jsonify({'error': str(exc)}), 400
 
+    login_user(user)
     return jsonify({
         'mensagem': 'Usuário criado com sucesso',
         'usuario': {'id': user.id, 'username': user.username}
