@@ -43,7 +43,6 @@ tunefinder-back-end/
 └── database/                           # arquivo sqlite (ignorado pelo git)
 ```
 
-
 ## Tecnologias Utilizadas
 
 - Python (recomendado: 3.9+)
@@ -58,7 +57,6 @@ tunefinder-back-end/
 
 Dependências do projeto estão listadas em [requirements.txt](requirements.txt).
 
-
 ## Requisitos
 
 - Python 3.9 ou superior (instale via python.org / pyenv)
@@ -67,7 +65,6 @@ Dependências do projeto estão listadas em [requirements.txt](requirements.txt)
 - permissão de escrita para criar o diretório `database/` (o arquivo SQLite é criado neste diretório por [`src/db/session.py`](src/db/session.py))
 - uso de ambiente virtual: venv ou virtualenv (recomendado caso não seja utilizado o Docker)
 
-
 ## Variáveis de Ambiente
 
 Para correto funcionamento da aplicação, é necessário o cadastro das seguintes variáveis de ambiente:
@@ -75,6 +72,27 @@ Para correto funcionamento da aplicação, é necessário o cadastro das seguint
 - `SECRET_KEY` - chave privada para autenticação dos usuários na aplicação
 - `LASTFM_API_KEY` - API Key para autenticação com a API da Last.fm a ser gerada
 - `LASTFM_API_URL` - URL padrão da API da Last.fm
+
+## Instalação
+
+Para execução da aplicação é necessário instalar as libs python informadas em [requirements.txt](requirements.txt).
+
+Recomenda-se fortemente o uso de ambiente virtual do tipo [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html).
+
+```
+(env)$ pip install -r requirements.txt
+```
+
+## Inicialização
+
+Para inicializar a API basta executar:
+
+```
+(env)$ flask --app src/main run -host 0.0.0.0 --port 5000
+```
+
+A documentação Swagger estará disponível em:
+http://localhost:5000/#/
 
 ## Inicialização através do Docker
 
